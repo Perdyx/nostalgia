@@ -29,7 +29,7 @@
     </Card.Root>
 
     <Card.Root class="overflow-hidden border-border bg-card shadow-sm">
-        <Card.Header> 
+        <Card.Header>
             <div class="flex flex-col items-start text-left">
                 <Card.Title class="text-xl font-bold tracking-tight text-card-foreground">
                     Ground Branch

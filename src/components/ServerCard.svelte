@@ -26,7 +26,8 @@
 
 <script>
   import { onMount, onDestroy } from 'svelte';
-  import { Activity, Wifi, Users, Map, ChevronRight, PlugZap, Copy, Check, Tag } from '@lucide/svelte';
+  import { dev } from '$app/environment'; // Detects if the app is in dev mode (ie. running via localhost)
+  import { Activity, Wifi, Users, Map, ChevronRight, PlugZap, Copy, Check, Tag, ServerCrash } from '@lucide/svelte';
 
   export let ID;
 
@@ -34,15 +35,36 @@
   let isLoading = true;
   let refreshTimer;
 
+  // Dummy data for development
+  const dummyData = {
+    name: "Development Server [US-East]",
+    version: "1.34.2",
+    connect: "127.0.0.1:7777",
+    numplayers: 8,
+    maxplayers: 16,
+    map: "Airport",
+    status: false,
+    last_update: Math.floor(Date.now() / 1000),
+    id: ID
+  };
+
   const targetUrl = `https://api.gamemonitoring.net/servers/${ID}`;
   const proxyUrl = `https://api.cors.lol/?url=${encodeURIComponent(targetUrl)}`;
 
   async function fetchServerData() {
+    // Dev logic (dummyData)
+    if (dev) {
+      console.log(`[Dev Mode] Skipping API fetch for ID ${ID}. Using dummy data.`);
+      info = dummyData;
+      isLoading = false;
+      return; 
+    }
+
+    // Prod logic (queue/fetch)
     enqueue(async () => {
       try {
         const response = await fetch(proxyUrl);
 
-        // If rate limited (429), retry after 5 seconds
         if (response.status === 429) {
           console.warn(`Rate limited for ID ${ID}. Retrying in 5s...`);
           setTimeout(fetchServerData, 5000);
@@ -55,14 +77,10 @@
         if (data?.response) {
           info = data.response;
           isLoading = false;
-
-          // Schedule the 5-minute refresh on successful load
           scheduleRefresh(5 * 60 * 1000);
         }
       } catch (err) {
         console.error(`Error fetching ID ${ID}:`, err);
-
-        // On error, try again in 5 seconds
         setTimeout(fetchServerData, 5000);
       }
     });
@@ -115,21 +133,31 @@
 </script>
 
 <style>
-  :global(.animate-sync-ping) {
-    animation: ping 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-  
   :global(.animate-sync-pulse) {
     animation: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
-
-  @keyframes ping { 
-    75%, 100% { transform: scale(2); opacity: 0; } 
+  
+  :global(.animate-sync-breathe) {
+    animation: breathe 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
-  @keyframes pulse {
+  :global(.animate-staccato) {
+    animation: staccato 2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  }
+
+  @keyframes pulse { 
+    75%, 100% { transform: scale(2); opacity: 0; }
+  }
+
+  @keyframes breathe {
     0%, 100% { opacity: 1; }
     50% { opacity: .3; }
+  }
+
+  @keyframes staccato {
+    0%, 35%   { opacity: 1; }
+    55%, 85%  { opacity: 0.3; }
+    100%      { opacity: 1; }
   }
 </style>
 
@@ -170,12 +198,13 @@
     <div class="w-20 flex items-center justify-center py-4 sm:py-0 bg-transparent">
       <div class="relative flex items-center justify-center">
         {#if isOnline}
-          <Activity class="absolute w-6 h-6 text-emerald-500 animate-sync-ping opacity-50" />
-          <Activity class="relative w-6 h-6 text-emerald-500 animate-sync-pulse" />
+          <Activity class="absolute w-6 h-6 text-emerald-500 animate-sync-pulse" />
+          <Activity class="relative w-6 h-6 text-emerald-500 animate-sync-breathe" />
         {:else}
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-red-500/70 animate-sync-pulse">
+          <!-- <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-red-500/70 animate-sync-breathe">
             <line x1="2" y1="12" x2="22" y2="12" />
-          </svg>
+          </svg> -->
+          <ServerCrash class="relative w-6 h-6 text-red-500 animate-staccato" />
         {/if}
       </div>
     </div>
