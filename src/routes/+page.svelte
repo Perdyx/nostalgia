@@ -1,7 +1,8 @@
 <script lang="ts">
-<script lang="ts">
     import * as Card from "$lib/components/ui/card/index.js";
     import { Activity, Users, Map as MapIcon, Wifi, CloudFog, ChevronRight, PlugZap } from "@lucide/svelte";
+    
+    $: isOnline = true;
 </script>
 
 <style>
