@@ -1,9 +1,7 @@
 <script lang="ts">
+<script lang="ts">
     import * as Card from "$lib/components/ui/card/index.js";
     import { Activity, Users, Map as MapIcon, Wifi, CloudFog, ChevronRight, PlugZap } from "@lucide/svelte";
-    
-    export let serverCount = 1;
-    $: isOnline = serverCount > 0; 
 </script>
 
 <style>
@@ -29,7 +27,7 @@
                 <div class="flex items-center gap-2 mt-1">
                     <CloudFog class="w-4 h-4 text-orange-500" />
                     <span class="text-sm text-muted-foreground font-medium">
-                        Active servers: {serverCount}
+                        Active servers: 1
                     </span>
                 </div>
             </div>
