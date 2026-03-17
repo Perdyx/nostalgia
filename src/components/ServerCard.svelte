@@ -20,6 +20,7 @@
     <p><strong>Map:</strong> {info.map}</p>
     <p><strong>Connect:</strong> <code>{info.connect}</code></p>
     <small>Version: {info.version}</small>
+    <small>Last updated: {info.last_update}</small>
   {/if}
 </div>
 

@@ -8,35 +8,21 @@ on:
 jobs:
   fetch-data:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
+      - name: Ensure script is executable
+        run: chmod +x scripts/fetch-data.sh
+
       - name: Fetch Server Data
-        run: bash scripts/fetch-data.sh
-        # run: |
-        #   SERVER_IDS=("11181191" "10972620" "10682117") # Define server IDs to fetch here
-          
-        #   echo "[" > src/lib/server-data.json
-          
-        #   for i in "${!SERVER_IDS[@]}"; do
-        #     ID=${SERVER_IDS[$i]}
+        run: ./scripts/fetch-data.sh
 
-        #     echo "Fetching data for server: $ID"
-        #     curl -s "https://api.gamemonitoring.net/servers/$ID" | jq '.response' >> src/lib/server-data.json
-            
-        #     # Add a comma as long as it's not the last server in the list
-        #     if [ $i -lt $((${#SERVER_IDS[@]} - 1)) ]; then
-        #       echo "," >> src/lib/server-data.json
-        #     fi
-        #   done
-          
-        #   echo "]" >> src/lib/server-data.json
-
-      - name: Commit and Push changes
+      - name: Commit and Push
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add src/lib/server-data.json
-          # Only commit if the file actually changed
-          git commit -m "chore: update server stats" || exit 0
+          git commit -m "chore: update server stats" || echo "No changes to commit"
           git push

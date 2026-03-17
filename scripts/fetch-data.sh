@@ -1,5 +1,4 @@
 #!/bin/bash
-# Fetches data during local development, bypassing GitHub Actions
 
 TEMP_FILE=$(mktemp)
 TARGET_FILE="src/lib/server-data.json"
