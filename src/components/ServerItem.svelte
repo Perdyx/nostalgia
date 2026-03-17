@@ -6,7 +6,7 @@
   // Attempt to find the server
   const info = serverData.find(s => s.id === Number(ID));
   
-  // If no data is found in the JSON, we assume we are in "Loading/Local" mode
+  // If no data is found in the JSON, assume the data is still loading or the site is running locally
   const isLoading = !info || serverData.length === 0;
 </script>
 
@@ -33,7 +33,6 @@
     min-width: 250px;
   }
 
-  /* Skeleton Animation */
   .skeleton {
     background: linear-gradient(90deg, #222 25%, #333 50%, #222 75%);
     background-size: 200% 100%;
