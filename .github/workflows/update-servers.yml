@@ -1,0 +1,20 @@
+name: Update Server Info
+
+on:
+  workflow_dispatch: # Allows manual triggering
+  schedule:
+    - cron: '*/5 * * * *' # Runs every hour (optional)
+
+jobs:
+  fetch-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Server Data
+        run: |
+          RESPONSE=$(curl -s https://api.gamemonitoring.net/servers/11181191)
+          
+          NAME=$(echo $RESPONSE | jq -r '.response.name')
+          CONNECT=$(echo $RESPONSE | jq -r '.response.connect')
+          MAP=$(echo $RESPONSE | jq -r '.response.map')
+          VERSION=$(echo $RESPONSE | jq -r '.response.version')
+          LAST_UPDATE=$(echo $RESPONSE | jq -r '.response.last_update')

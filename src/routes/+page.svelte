@@ -1,7 +1,8 @@
 <script lang="ts">
     import * as Card from "$lib/components/ui/card/index.js";
     import { Activity, Users, Map as MapIcon, Wifi, CloudFog, ChevronRight, PlugZap } from "@lucide/svelte";
-    
+    import ServerItem from '../components/ServerItem.svelte';
+
     $: isOnline = true;
 </script>
 
@@ -35,7 +36,11 @@
         </Card.Header>
         
         <Card.Content>
-            <div class="flex flex-col sm:flex-row items-stretch rounded-lg border border-border bg-card overflow-hidden transition-all">
+            <ServerItem ID="11181191" />
+            <ServerItem ID="12345678" />
+            <ServerItem ID="87654321" />
+            
+            <!-- <div class="flex flex-col sm:flex-row items-stretch rounded-lg border border-border bg-card overflow-hidden transition-all">
                 
                 <div class="w-20 flex items-center justify-center py-4 sm:py-0">
                     <div class="relative flex items-center justify-center">
@@ -99,7 +104,7 @@
                         </div>
                     </div>
                 </a>
-            </div>
+            </div> -->
         </Card.Content>
     </Card.Root>
 </div>
