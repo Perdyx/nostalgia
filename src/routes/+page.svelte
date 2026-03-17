@@ -26,7 +26,7 @@
             <ServerCard ID="10997383" index={1} />
             <ServerCard ID="10997381" index={2} />
 
-            <ServerCardOverlay reason="SEASONAL - RETURNS WINTER">
+            <ServerCardOverlay reason="TEST SERVER - OFFLINE">
                 <ServerCard ID="10997382" index={3} />
             </ServerCardOverlay>
         </Card.Content>
