@@ -1,91 +1,9 @@
-<script>
-    import { Activity, Wifi, Users, MapIcon, ChevronRight, PlugZap } from '@lucide/svelte';
-    
-    export let data = {
-        isOnline: false,
-        name: "Loading...",
-        version: "0.0.0",
-        ip: "0.0.0.0",
-        players: 0,
-        maxPlayers: 0,
-        map: "unknown"
-    };
-    export let lastUpdated = null;
-
-    // Helper to format the timestamp
-    $: relativeTime = lastUpdated ? new Date(lastUpdated).toLocaleTimeString() : 'Never';
-</script>
-
-<div class="max-w-xl mx-auto space-y-2">
-    <div class="text-[10px] uppercase tracking-tighter text-muted-foreground flex justify-end px-1">
-        Data synced: <span class="text-foreground ml-1 font-mono">{relativeTime}</span>
-    </div>
-
-    <div class="flex flex-col sm:flex-row items-stretch rounded-lg border border-border bg-card overflow-hidden transition-all shadow-sm">
-        <div class="w-20 flex items-center justify-center py-4 sm:py-0 bg-secondary/10">
-            <div class="relative flex items-center justify-center">
-                {#if data.isOnline}
-                    <Activity class="absolute w-6 h-6 text-emerald-500 animate-ping opacity-50" />
-                {/if}
-                <Activity 
-                    class="relative w-6 h-6 transition-colors duration-500
-                    {data.isOnline ? 'text-emerald-500 animate-pulse' : 'text-red-500'}" 
-                />
-            </div>
-        </div>
-        
-        <div class="flex-grow p-4 flex flex-col justify-center">
-            <div class="flex items-center gap-2 mb-1">
-                <h4 class="font-bold text-foreground">{data.name}</h4>
-                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary border border-primary/20 ml-1">
-                    {data.version}
-                </span>
-            </div>
-            
-            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground font-mono">
-                <div class="flex items-center gap-1">
-                    <Wifi class="w-3.5 h-3.5" /> {data.ip}
-                </div>
-                <span class="hidden sm:inline text-muted-foreground/30">•</span>
-                <div class="flex items-center gap-1">
-                    <Users class="w-3.5 h-3.5" /> {data.players}/{data.maxPlayers} Players
-                </div>
-                <span class="hidden sm:inline text-muted-foreground/30">•</span>
-                <div class="flex items-center gap-1">
-                    <MapIcon class="w-3.5 h-3.5" /> {data.map}
-                </div>
-            </div>
-        </div>
-        
-        <a 
-            href="steam://connect/{data.ip}" 
-            class="group flex items-center justify-center 
-            bg-transparent text-muted-foreground/60 border-l border-border
-            hover:bg-primary hover:text-primary-foreground hover:border-primary
-            transition-all duration-500 ease-in-out 
-            w-12 hover:w-28 min-h-[50px] sm:min-h-full overflow-hidden"
-        >
-            <div class="flex items-center justify-center transition-all duration-500">
-                <span class="max-w-0 opacity-0 group-hover:max-w-[100px] group-hover:opacity-100 transition-all duration-500 font-bold uppercase tracking-widest text-xs whitespace-nowrap">
-                    Join
-                </span>
-                
-                <div class="relative w-4 h-4 flex items-center justify-center flex-shrink-0 transition-all duration-500 group-hover:ml-2">
-                    <div class="absolute inset-0 transition-all duration-500 transform group-hover:rotate-180 group-hover:scale-0 group-hover:opacity-0">
-                        <ChevronRight size={16} strokeWidth={3} />
-                    </div>
-                    <div class="absolute inset-0 transition-all duration-500 transform scale-0 opacity-0 rotate-[-180deg] group-hover:rotate-0 group-hover:scale-110 group-hover:opacity-100">
-                        <PlugZap size={16} strokeWidth={2.5} />
-                    </div>
-                </div>
-            </div>
-        </a>
-    </div>
-</div>
-
-<!-- <script lang="ts">
+<script lang="ts">
     import * as Card from "$lib/components/ui/card/index.js";
     import { Activity, Users, Map as MapIcon, Wifi, CloudFog, ChevronRight, PlugZap } from "@lucide/svelte";
+    
+    export let serverCount = 1;
+    $: isOnline = serverCount > 0; 
 </script>
 
 <style>
@@ -185,4 +103,4 @@
             </div>
         </Card.Content>
     </Card.Root>
-</div> -->
+</div>
