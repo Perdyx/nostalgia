@@ -1,41 +1,114 @@
+<script context="module">
+  // Global queue shared across all instances of ServerCard
+  let requestQueue = [];
+  let isProcessing = false;
+
+  async function processQueue() {
+    if (isProcessing || requestQueue.length === 0) return;
+    isProcessing = true;
+
+    while (requestQueue.length > 0) {
+      const { task } = requestQueue.shift();
+      await task();
+
+      // Wait 400ms between requests to avoid triggering proxy rate limits
+      await new Promise(resolve => setTimeout(resolve, 400));
+    }
+
+    isProcessing = false;
+  }
+
+  function enqueue(task) {
+    requestQueue.push({ task });
+    processQueue();
+  }
+</script>
+
 <script>
-  import serverData from '$lib/server-data.json';
+  import { onMount, onDestroy } from 'svelte';
   import { Activity, Wifi, Users, Map, ChevronRight, PlugZap, Copy, Check, Tag } from '@lucide/svelte';
 
   export let ID;
 
-  // 1. Find the raw entry
-  const rawEntry = serverData.find((s) => Number(s.response?.id) === Number(ID) || Number(s.id) === Number(ID));
-  
-  // 2. Extract the actual data object
-  const info = rawEntry?.response || rawEntry;
+  let info = null;
+  let isLoading = true;
+  let refreshTimer;
 
-  // 3. Define isLoading based on whether 'info' actually contains data
-  $: isLoading = !info || Object.keys(info).length === 0;
+  const targetUrl = `https://api.gamemonitoring.net/servers/${ID}`;
+  const proxyUrl = `https://api.cors.lol/?url=${encodeURIComponent(targetUrl)}`;
 
-  // 4. Status Check
+  async function fetchServerData() {
+    enqueue(async () => {
+      try {
+        const response = await fetch(proxyUrl);
+
+        // If rate limited (429), retry after 5 seconds
+        if (response.status === 429) {
+          console.warn(`Rate limited for ID ${ID}. Retrying in 5s...`);
+          setTimeout(fetchServerData, 5000);
+          return;
+        }
+
+        if (!response.ok) throw new Error('Fetch failed');
+
+        const data = await response.json();
+        if (data?.response) {
+          info = data.response;
+          isLoading = false;
+
+          // Schedule the 5-minute refresh on successful load
+          scheduleRefresh(5 * 60 * 1000);
+        }
+      } catch (err) {
+        console.error(`Error fetching ID ${ID}:`, err);
+
+        // On error, try again in 5 seconds
+        setTimeout(fetchServerData, 5000);
+      }
+    });
+  }
+
+  function scheduleRefresh(ms) {
+    clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(fetchServerData, ms);
+  }
+
+  onMount(() => {
+    fetchServerData();
+  });
+
+  onDestroy(() => {
+    clearTimeout(refreshTimer);
+  });
+
   $: isOnline = info?.status === true;
 
   let copied = false;
+
   async function copyToClipboard(text) {
+    if (!text) return;
+
     try {
       await navigator.clipboard.writeText(text);
       copied = true;
       setTimeout(() => (copied = false), 2000);
-    } catch (err) {
-      console.error('Failed to copy: ', err);
-    }
+    } catch (err) { console.error(err); }
   }
 
   function timeAgo(unixTimestamp) {
-    if (!unixTimestamp) return 'Eternity';
-    const seconds = Math.floor((new Date().getTime() - unixTimestamp * 1000) / 1000);
+    if (!unixTimestamp) return 'Never';
+
+    const seconds = Math.floor((Date.now() - unixTimestamp * 1000) / 1000);
+
     if (seconds < 60) return 'Just now';
+
     const intervals = {
       year: 31536000, month: 2592000, week: 604800, day: 86400, hour: 3600, minute: 60,
     };
+
     for (let [unit, value] of Object.entries(intervals)) {
       const count = Math.floor(seconds / value);
+
       if (count >= 1) return `${count} ${unit}${count > 1 ? 's' : ''} ago`;
     }
   }
@@ -68,24 +141,29 @@
 
     <div class="flex-grow p-3 sm:p-4 flex flex-col justify-center min-w-0">
       <div class="flex items-center gap-3 mb-3">
-        <div class="h-5 w-32 bg-muted/30 rounded"></div>
+        <div class="h-5 w-48 bg-muted/30 rounded"></div>
         <div class="h-4 w-16 bg-muted/20 rounded-full"></div>
       </div>
 
-      <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-        <div class="h-6 w-24 bg-muted/20 rounded-md"></div>
-        <div class="hidden sm:block w-1 h-1 rounded-full bg-muted/10"></div>
-        <div class="h-4 w-12 bg-muted/20 rounded"></div>
-        <div class="hidden sm:block w-1 h-1 rounded-full bg-muted/10"></div>
-        <div class="h-4 w-20 bg-muted/20 rounded"></div>
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-1">
+        <div class="h-6 w-32 bg-muted/20 rounded-md"></div>
+        <span class="hidden sm:inline-block w-1 h-1 rounded-full bg-muted/20"></span>
+        <div class="h-4 w-16 bg-muted/20 rounded"></div>
+        <span class="hidden sm:inline-block w-1 h-1 rounded-full bg-muted/20"></span>
+        <div class="h-4 w-24 bg-muted/20 rounded"></div>
       </div>
     </div>
 
-    <div class="w-12 border-l border-border bg-muted/5 flex items-center justify-center">
+    <div class="hidden md:flex items-center justify-center pr-8">
+      <span class="text-xs font-bold tracking-[0.2em] text-muted-foreground/40 uppercase select-none">
+        Loading server data...
+      </span>
+    </div>
+
+    <div class="w-12 flex items-center justify-center">
       <div class="w-4 h-4 bg-muted/20 rounded"></div>
     </div>
   </div>
-
 {:else}
   <div class="flex flex-col sm:flex-row items-stretch rounded-lg border border-border bg-card overflow-hidden transition-all shadow-sm hover:shadow-md">
     
