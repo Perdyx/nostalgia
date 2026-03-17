@@ -11,7 +11,6 @@ echo "[" > "$TEMP_FILE"
 VALID_COUNT=0
 
 for ID in "${SERVER_IDS[@]}"; do
-    ID=${SERVER_IDS[$i]}
     
     # Fetch data and extract .response
     RAW_RESPONSE=$(curl -s "https://api.gamemonitoring.net/servers/$ID")
