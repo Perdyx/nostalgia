@@ -3,7 +3,7 @@ name: Update Server Info
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '5-59/10 * * * *'
 
 jobs:
   fetch-data:
