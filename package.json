@@ -4,8 +4,8 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "bash scripts/fetch-data.sh && vite dev",
-  		"dev:data": "bash scripts/fetch-data.sh",
+		"dev": "rm -f src/lib/server-data.json && bash scripts/fetch-data.sh && vite dev",
+  		"dev:data": "rm -f src/lib/server-data.json && bash scripts/fetch-data.sh",
 		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''"

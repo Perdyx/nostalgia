@@ -1,53 +1,174 @@
 <script>
   import serverData from '$lib/server-data.json';
-  
+  import { Activity, Wifi, Users, Map, ChevronRight, PlugZap, Copy, Check, Tag } from '@lucide/svelte';
+
   export let ID;
 
-  // Attempt to find the server
-  const info = serverData.find(s => s.id === Number(ID));
+  // 1. Find the raw entry
+  const rawEntry = serverData.find((s) => Number(s.response?.id) === Number(ID) || Number(s.id) === Number(ID));
   
-  // If no data is found in the JSON, assume the data is still loading or the site is running locally
-  const isLoading = !info || serverData.length === 0;
+  // 2. Extract the actual data object
+  const info = rawEntry?.response || rawEntry;
+
+  // 3. Define isLoading based on whether 'info' actually contains data
+  $: isLoading = !info || Object.keys(info).length === 0;
+
+  // 4. Status Check
+  $: isOnline = info?.status === true;
+
+  let copied = false;
+  async function copyToClipboard(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      copied = true;
+      setTimeout(() => (copied = false), 2000);
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  }
+
+  function timeAgo(unixTimestamp) {
+    if (!unixTimestamp) return 'Eternity';
+    const seconds = Math.floor((new Date().getTime() - unixTimestamp * 1000) / 1000);
+    if (seconds < 60) return 'Just now';
+    const intervals = {
+      year: 31536000, month: 2592000, week: 604800, day: 86400, hour: 3600, minute: 60,
+    };
+    for (let [unit, value] of Object.entries(intervals)) {
+      const count = Math.floor(seconds / value);
+      if (count >= 1) return `${count} ${unit}${count > 1 ? 's' : ''} ago`;
+    }
+  }
 </script>
 
-<div class="server-card">
-  {#if isLoading}
-    <div class="skeleton title"></div>
-    <div class="skeleton text"></div>
-    <div class="skeleton text short"></div>
-  {:else}
-    <h3>{info.name}</h3>
-    <p><strong>Map:</strong> {info.map}</p>
-    <p><strong>Connect:</strong> <code>{info.connect}</code></p>
-    <small>Version: {info.version}</small>
-    <small>Last updated: {info.last_update}</small>
-  {/if}
-</div>
-
 <style>
-  .server-card {
-    border: 1px solid #333;
-    padding: 1.5rem;
-    border-radius: 12px;
-    background: #1a1a1a;
-    color: white;
-    min-width: 250px;
+  :global(.animate-sync-ping) {
+    animation: ping 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  :global(.animate-sync-pulse) {
+    animation: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
-  .skeleton {
-    background: linear-gradient(90deg, #222 25%, #333 50%, #222 75%);
-    background-size: 200% 100%;
-    animation: loading 1.5s infinite;
-    border-radius: 4px;
-    margin-bottom: 0.5rem;
+  @keyframes ping { 
+    75%, 100% { transform: scale(2); opacity: 0; } 
   }
 
-  .title { height: 24px; width: 70%; margin-bottom: 1rem; }
-  .text { height: 16px; width: 90%; }
-  .short { width: 40%; }
-
-  @keyframes loading {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .3; }
   }
 </style>
+
+{#if isLoading}
+  <div class="flex flex-col sm:flex-row items-stretch rounded-lg border border-border bg-card overflow-hidden animate-pulse">
+    <div class="w-20 flex items-center justify-center py-4 sm:py-0">
+      <div class="w-8 h-8 rounded-full bg-muted/20"></div>
+    </div>
+
+    <div class="flex-grow p-3 sm:p-4 flex flex-col justify-center min-w-0">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="h-5 w-32 bg-muted/30 rounded"></div>
+        <div class="h-4 w-16 bg-muted/20 rounded-full"></div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+        <div class="h-6 w-24 bg-muted/20 rounded-md"></div>
+        <div class="hidden sm:block w-1 h-1 rounded-full bg-muted/10"></div>
+        <div class="h-4 w-12 bg-muted/20 rounded"></div>
+        <div class="hidden sm:block w-1 h-1 rounded-full bg-muted/10"></div>
+        <div class="h-4 w-20 bg-muted/20 rounded"></div>
+      </div>
+    </div>
+
+    <div class="w-12 border-l border-border bg-muted/5 flex items-center justify-center">
+      <div class="w-4 h-4 bg-muted/20 rounded"></div>
+    </div>
+  </div>
+
+{:else}
+  <div class="flex flex-col sm:flex-row items-stretch rounded-lg border border-border bg-card overflow-hidden transition-all shadow-sm hover:shadow-md">
+    
+    <div class="w-20 flex items-center justify-center py-4 sm:py-0 bg-transparent">
+      <div class="relative flex items-center justify-center">
+        {#if isOnline}
+          <Activity class="absolute w-6 h-6 text-emerald-500 animate-sync-ping opacity-50" />
+          <Activity class="relative w-6 h-6 text-emerald-500 animate-sync-pulse" />
+        {:else}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-red-500/70 animate-sync-pulse">
+            <line x1="2" y1="12" x2="22" y2="12" />
+          </svg>
+        {/if}
+      </div>
+    </div>
+
+    <div class="flex-grow p-3 sm:p-4 flex flex-col justify-center min-w-0">
+      <div class="flex items-center gap-3 mb-2 w-full">
+        <h4 class="font-bold text-foreground whitespace-nowrap overflow-hidden text-ellipsis">
+          {info.name}
+        </h4>
+        <span class="text-[10px] font-mono px-2 py-0.5 rounded border whitespace-nowrap flex-shrink-0 
+          {info.version ? 'bg-primary/10 text-primary border-primary/20' : 'bg-red-500/10 text-red-500 border-red-500/20'}">
+          <div class="flex items-center gap-1.5">
+            <Tag size={10} strokeWidth={2.5} class="opacity-80" />
+            <span>{info.version ? info.version : 'Unknown'}</span>
+          </div>
+        </span>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-muted-foreground font-mono">
+        <button 
+          on:click={() => copyToClipboard(info.connect)}
+          class="group/copy flex items-center gap-2 px-2.5 py-1 rounded-md border border-border bg-secondary/20 text-muted-foreground hover:text-foreground hover:border-muted-foreground/40 transition-all text-[11px]"
+        >
+          {#if copied}
+            <Check size={12} class="text-emerald-500" />
+            <span class="text-emerald-500 font-bold">Copied!</span>
+          {:else}
+            <Wifi size={12} class="opacity-60 group-hover/copy:opacity-100 transition-opacity" />
+            <span>{info.connect}</span>
+            <Copy size={10} class="ml-1 opacity-40 group-hover/copy:opacity-60" />
+          {/if}
+        </button>
+
+        <span class="hidden sm:inline-block w-1 h-1 rounded-full bg-muted-foreground/20 mx-0.5 self-center"></span>
+        
+        <div class="flex items-center gap-1">
+          <Users class="w-3.5 h-3.5" /> {info.numplayers}/{info.maxplayers}
+        </div>
+
+        <span class="hidden sm:inline-block w-1 h-1 rounded-full bg-muted-foreground/20 mx-0.5 self-center"></span>
+
+        <div class="flex items-center gap-1 truncate max-w-[120px] sm:max-w-none">
+          <Map class="w-3.5 h-3.5" /> {info.map}
+        </div>
+
+        <span class="hidden sm:inline-block w-1 h-1 rounded-full bg-muted-foreground/20 mx-0.5 self-center"></span>
+        
+        <div class="flex items-center text-[11px] text-muted-foreground/30 font-medium uppercase tracking-tight leading-none">
+          {timeAgo(info.last_update)}
+        </div>
+      </div>
+    </div>
+
+    <a
+      href="https://gamemonitoring.net/ground-branch/servers/{info.id}/connect"
+      target="_blank"
+      class="group flex items-center justify-center bg-transparent text-muted-foreground/60 border-l border-border hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-500 ease-in-out w-12 hover:w-28 min-h-[44px] sm:min-h-full overflow-hidden flex-shrink-0"
+    >
+      <div class="flex items-center justify-center transition-all duration-500">
+        <span class="max-w-0 opacity-0 group-hover:max-w-[100px] group-hover:opacity-100 transition-all duration-500 font-bold uppercase tracking-widest text-xs whitespace-nowrap">
+          Join
+        </span>
+        <div class="relative w-4 h-4 flex items-center justify-center flex-shrink-0 transition-all duration-500 group-hover:ml-2">
+          <div class="absolute inset-0 transition-all duration-500 transform group-hover:rotate-180 group-hover:scale-0 group-hover:opacity-0">
+            <ChevronRight size={16} strokeWidth={3} />
+          </div>
+          <div class="absolute inset-0 transition-all duration-500 transform scale-0 opacity-0 rotate-[-180deg] group-hover:rotate-0 group-hover:scale-110 group-hover:opacity-100">
+            <PlugZap size={16} strokeWidth={2.5} />
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+{/if}

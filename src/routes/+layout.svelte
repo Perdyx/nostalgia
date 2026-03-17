@@ -19,10 +19,10 @@
 <NavigationMenu.Root class="max-w-full w-full justify-start px-4 py-2 border-b">
     <NavigationMenu.List class="max-w-full w-full flex items-center">
         <NavigationMenu.Item>
-            <NavigationMenu.Link>Servers</NavigationMenu.Link>
+            <NavigationMenu.Link class="font-medium text-[16px]">Servers</NavigationMenu.Link>
         </NavigationMenu.Item>
         <NavigationMenu.Item>
-            <NavigationMenu.Link>About</NavigationMenu.Link>
+            <NavigationMenu.Link class="font-medium text-[16px]">About</NavigationMenu.Link>
         </NavigationMenu.Item>
     </NavigationMenu.List>
 
