@@ -1,7 +1,8 @@
 <script lang="ts">
     import * as Card from "$lib/components/ui/card/index.js";
     import { CloudFog } from "@lucide/svelte";
-    import ServerCard from '../components/ServerCard.svelte';
+    import ServerCard from "../components/ServerCard.svelte";
+    import ServerCardOverlay from "../components/ServerCardOverlay.svelte";
 </script>
 
 <div class="flex flex-col gap-8 w-full max-w-[900px] mx-auto py-12">
@@ -24,7 +25,10 @@
             <ServerCard ID="10997380" index={0} />
             <ServerCard ID="10997383" index={1} />
             <ServerCard ID="10997381" index={2} />
-            <ServerCard ID="10997382" index={3} />
+
+            <ServerCardOverlay reason="SEASONAL - RETURNS WINTER">
+                <ServerCard ID="10997382" index={3} />
+            </ServerCardOverlay>
         </Card.Content>
     </Card.Root>
 
