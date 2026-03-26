@@ -10,7 +10,7 @@
     import { ModeWatcher } from "mode-watcher";
     import { toggleMode } from "mode-watcher";
     
-    import { Eclipse, Minimize, MoonIcon, Swords } from "@lucide/svelte";
+    import { Copyright, Eclipse, Minimize, MoonIcon, Swords } from "@lucide/svelte";
     
     let { children } = $props();
     
@@ -57,3 +57,24 @@
         {@render children?.()}
     </div>
 </div>
+
+<footer class="w-full border-t bg-background py-6 text-center">
+    <div class="container mx-auto flex flex-col items-center gap-2">
+        <div class="flex items-center gap-1 text-sm text-muted-foreground">
+            <span>
+                Built with 
+                <a href="https://www.shadcn-svelte.com/" target="_blank" rel="noreferrer" class="font-medium underline underline-offset-4">shadcn-svelte</a>.
+            </span>
+            <!-- <Separator orientation="vertical" class="h-6" /> -->
+            <span>
+                Code licensed under
+                <a href="https://github.com/Perdyx/nostalgia/blob/main/LICENSE" target="_blank" rel="noreferrer" class="font-medium underline underline-offset-4">MIT License</a>.
+            </span>
+        </div>
+
+        <div class="flex items-center gap-1.5 text-xs text-muted-foreground/60">
+            <Copyright class="size-3" />
+            <span>{new Date().getFullYear()}</span>
+        </div>
+    </div>
+</footer>
