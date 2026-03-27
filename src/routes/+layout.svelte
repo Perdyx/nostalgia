@@ -47,12 +47,12 @@
             
             <div class="relative z-10 container mx-auto h-full flex flex-col justify-center px-6 lg:px-12">
                 <div class="max-w-2xl space-y-6">
-                    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
-                        Title
+                    <h1 class="text-5xl font-extrabold tracking-wide text-foreground">
+                        Nostalgia Network
                     </h1>
                     
-                    <p class="text-lg md:text-xl text-foreground-muted leading-relaxed">
-                        The paragraph from the server browser and stuff. Some other text that I don't have right now.
+                    <p class="text-lg text-foreground/69 leading-relaxed">
+                        Welcome to the Nostalgia game network! All of our servers are privately owned, facilitated, and maintained and are backed up nightly at midnight (PST). Please join our Discord server to read the rules, get notified about changes, and join the growing community!
                     </p>
 
                     <div class="pt-4">
