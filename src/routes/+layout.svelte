@@ -1,19 +1,29 @@
 <script>
+    // Styles & Assets
     import './layout.css';
     import favicon from '$lib/assets/favicon.svg';
+
+    // Shadcn UI Components
     import * as NavigationMenu from "$lib/components/ui/navigation-menu/index.js";
-    import { Button } from "$lib/components/ui/button/index.js";
-    import { Separator } from "$lib/components/ui/separator/";
-    import { buttonVariants } from "$lib/components/ui/button/";
+    import { Button, buttonVariants } from "$lib/components/ui/button/index.js";
+    import { Separator } from "$lib/components/ui/separator/index.js";
+
+    // Utilities & Theme Management
     import { cn } from "$lib/utils.js";
-    
-    import { ModeWatcher } from "mode-watcher";
-    import { toggleMode } from "mode-watcher";
-    
-    import { Copyright, Eclipse, Minimize, MoonIcon, Swords } from "@lucide/svelte";
+    import { ModeWatcher, toggleMode } from "mode-watcher";
+
+    // Icons
+    import { 
+        Copyright, 
+        Eclipse, 
+        Minimize, 
+        MoonIcon, 
+        Swords 
+    } from "@lucide/svelte";
     
     let { children } = $props();
     
+    // Configure background icon grid
     const rows = Array(60).fill(0);
     const cols = Array(120).fill(0);
 </script>

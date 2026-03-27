@@ -1,8 +1,8 @@
 <script>
     import * as Card from "$lib/components/ui/card";
-    import { Server } from "@lucide/svelte";
     import ServerCard from "./ServerCard.svelte";
     import ServerCardOverlay from "./ServerCardOverlay.svelte";
+    import { Server } from "@lucide/svelte";
     
     export let title = "";
     export let servers = []; // Object format: { id: string, offlineReason?: string }
