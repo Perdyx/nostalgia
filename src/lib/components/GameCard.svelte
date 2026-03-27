@@ -14,28 +14,31 @@
 
 <Card.Root class="overflow-hidden border-border bg-card shadow-sm">
     <Card.Header>
-        <div class="flex flex-col items-start text-left">
+        <div class="flex flex-row items-center justify-between w-full">
             <Card.Title class="text-xl font-bold tracking-tight text-card-foreground">
                 {title}
             </Card.Title>
-            <div class="flex items-center gap-2 mt-1">
-                <Server class="w-4 h-4 text-primary" />
+            
+            <div class="flex items-center gap-2">
                 <span class="text-sm text-muted-foreground font-medium">
-                    Servers: {serverCount}
+                    {serverCount}
                 </span>
+                <Server class="w-4 h-4 text-primary" />
             </div>
         </div>
     </Card.Header>
     
-    <Card.Content class="flex flex-col gap-4">
-        {#each servers as server, i}
-            {#if server.offlineReason}
-                <ServerCardOverlay reason={server.offlineReason}>
+    <Card.Content class="flex flex-col gap-4 overflow-x-auto pb-4">
+        <div class="flex flex-col gap-4 min-w-max">
+            {#each servers as server, i}
+                {#if server.offlineReason}
+                    <ServerCardOverlay reason={server.offlineReason}>
+                        <ServerCard ID={server.id} index={startIndex + i} />
+                    </ServerCardOverlay>
+                {:else}
                     <ServerCard ID={server.id} index={startIndex + i} />
-                </ServerCardOverlay>
-            {:else}
-                <ServerCard ID={server.id} index={startIndex + i} />
-            {/if}
-        {/each}
+                {/if}
+            {/each}
+        </div>
     </Card.Content>
 </Card.Root>
