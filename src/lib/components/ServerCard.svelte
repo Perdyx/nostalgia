@@ -27,7 +27,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
   import { dev } from '$app/environment'; // Detects if the app is in dev mode (ie. running via localhost)
-  import { Check, ChevronRight, Copy, HeartPulse, Map, ServerCrash, Swords, Tag, Users, Wifi } from '@lucide/svelte';
+  import { Check, ChevronLeft, Copy, HeartPulse, Map, ServerCrash, Swords, Tag, Users, Wifi } from '@lucide/svelte';
 
   export let ID;
 
@@ -194,7 +194,7 @@
     </div>
 
     <div class="grow py-4 flex items-center gap-8 min-w-0">
-      <h4 class="font-bold text-foreground whitespace-nowrap overflow-hidden text-ellipsis">
+      <h4 class="font-medium tracking-wide text-foreground whitespace-nowrap overflow-hidden text-ellipsis">
         {info.name}
       </h4>
 
@@ -206,7 +206,7 @@
           </div>
         </span>
 
-        <span class="w-1 h-1 rounded-full bg-muted-foreground/20 shrink-0"></span>
+        <span class="size-1 rounded-full bg-muted-foreground/10 shrink-0"></span>
 
         <button on:click={() => copyToClipboard(info.connect)} class="group/copy flex items-center gap-2 px-2.5 py-1 rounded-md border border-border bg-secondary/20 text-muted-foreground hover:text-foreground hover:border-muted-foreground/40 transition-all text-[11px] whitespace-nowrap shrink-0">
           {#if copied}
@@ -219,20 +219,20 @@
           {/if}
         </button>
 
-        <span class="w-1 h-1 rounded-full bg-muted-foreground/20 shrink-0"></span>
+        <span class="size-1 rounded-full bg-muted-foreground/10 shrink-0"></span>
         
         <div class="flex items-center gap-1 shrink-0 whitespace-nowrap">
           <Users class="w-3.5 h-3.5" /> {info.numplayers}/{info.maxplayers}
         </div>
 
-        <span class="w-1 h-1 rounded-full bg-muted-foreground/20 shrink-0"></span>
+        <span class="size-1 rounded-full bg-muted-foreground/10 shrink-0"></span>
 
         <div class="flex items-center gap-1 truncate max-w-50">
           <Map class="w-3.5 h-3.5 shrink-0" /> 
           <span class="truncate">{info.map}</span>
         </div>
 
-        <span class="w-1 h-1 rounded-full bg-muted-foreground/20 shrink-0"></span>
+        <span class="size-1 rounded-full bg-muted-foreground/10 shrink-0"></span>
         
         <div class="flex items-center text-[11px] text-muted-foreground/30 font-medium uppercase tracking-tight leading-none shrink-0 whitespace-nowrap pr-[50px]">
           Heartbeat: {timeAgo(info.last_update)}
@@ -242,22 +242,16 @@
 
     <a href="https://gamemonitoring.net/ground-branch/servers/{info.id}/connect" target="_blank" class="group flex items-center justify-center bg-primary text-primary-foreground border-l border-primary transition-all duration-500 ease-in-out shrink-0 relative overflow-hidden w-42 lg:w-12 lg:bg-transparent lg:text-muted-foreground/60 lg:border-border lg:hover:w-42 lg:hover:bg-primary lg:hover:text-primary-foreground lg:hover:border-primary">
       <div class="flex items-center justify-center transition-all duration-500">
-        <span class="font-bold uppercase tracking-widest text-xs whitespace-nowrap transition-all duration-500 max-w-xs opacity-100 ml-0 mr-2 lg:max-w-0 lg:opacity-0 lg:group-hover:max-w-xs lg:group-hover:opacity-100 lg:group-hover:mr-0">
+        <span class="font-bold uppercase tracking-widest text-xs whitespace-nowrap transition-all duration-500 max-w-xs opacity-100 mr-3 lg:max-w-0 lg:opacity-0 lg:mr-0 lg:group-hover:max-w-xs lg:group-hover:opacity-100 lg:group-hover:mr-3">
           Play Now
         </span>
 
-        <div class="relative w-4 h-4 flex items-center justify-center shrink-0 transition-all duration-500">
-          <div class="absolute inset-0 transition-all duration-500 transform 
-                      scale-0 opacity-0 rotate-180 
-                      lg:scale-100 lg:opacity-100 lg:rotate-0 
-                      lg:group-hover:rotate-180 lg:group-hover:scale-0 lg:group-hover:opacity-0">
-            <ChevronRight size={16} />
+        <div class="relative size-4 flex items-center justify-center shrink-0">
+          <div class="absolute transition-all duration-500 transform scale-0 opacity-0 rotate-180 lg:scale-100 lg:opacity-100 lg:rotate-0 lg:group-hover:rotate-180 lg:group-hover:scale-0 lg:group-hover:opacity-0 flex items-center justify-center">
+            <ChevronLeft size={16} />
           </div>
-
-          <div class="absolute inset-0 transition-all duration-500 transform 
-                      scale-110 opacity-100 rotate-0 
-                      lg:scale-0 lg:opacity-0 lg:-rotate-180 
-                      lg:group-hover:rotate-0 lg:group-hover:scale-110 lg:group-hover:opacity-100">
+          
+          <div class="absolute transition-all duration-500 transform scale-110 opacity-100 rotate-0 lg:scale-0 lg:opacity-0 lg:-rotate-180 lg:group-hover:rotate-0 lg:group-hover:scale-110 lg:group-hover:opacity-100 flex items-center justify-center">
             <Swords size={16} />
           </div>
         </div>
