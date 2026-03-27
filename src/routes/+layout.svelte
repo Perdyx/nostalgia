@@ -17,9 +17,9 @@
     import { 
         Copyright, 
         Eclipse, 
-        Minimize, 
+        GamepadDirectional, 
         MoonIcon, 
-        Swords 
+        Flame 
     } from "@lucide/svelte";
     
     let { children } = $props();
@@ -39,48 +39,54 @@
     </NavigationMenu.List>
 </NavigationMenu.Root>
 
-<section class="relative w-full h-[600px] overflow-hidden">
-  <img src={hero} alt="Screenshot from Ground Branch (2025)" class="absolute inset-0 w-full h-full object-cover object-center" />
-  <div class="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent"></div>
-  
-  <div class="relative z-10 container mx-auto h-full flex flex-col justify-center px-6 lg:px-12">
-    <div class="max-w-2xl space-y-6">
-      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
-        Title
-      </h1>
-      
-      <p class="text-lg md:text-xl text-foreground-muted leading-relaxed">
-        The paragraph from the server browser and stuff. Some other text that I don't have right now.
-      </p>
+<div class="relative flex flex-col items-center">
+    <div class="z-10 w-full" style:mask-image="linear-gradient(to bottom, black calc(100% - 300px), transparent 100%)" style:-webkit-mask-image="linear-gradient(to bottom, black calc(100% - 300px), transparent 100%)">
+        <section class="relative w-full h-175 overflow-hidden">
+            <img src={hero} alt="Screenshot from Ground Branch (2025)" class="absolute inset-0 w-full h-full object-cover object-center" />
+            <div class="absolute inset-0 bg-linear-to-r from-black to-transparent"></div>
+            
+            <div class="relative z-10 container mx-auto h-full flex flex-col justify-center px-6 lg:px-12">
+                <div class="max-w-2xl space-y-6">
+                    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
+                        Title
+                    </h1>
+                    
+                    <p class="text-lg md:text-xl text-foreground-muted leading-relaxed">
+                        The paragraph from the server browser and stuff. Some other text that I don't have right now.
+                    </p>
 
-      <div class="pt-4">
-        <Button size="lg" class="px-8 py-6 text-lg transition-transform" href="https://discord.gg/">
-          Join the Discord!
-        </Button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="relative min-h-screen w-full overflow-hidden bg-background">
-    <div class="absolute left-0 top-0 flex h-[200vh] w-[200vw] -ml-[50vw] -mt-[50vh] rotate-12 flex-col justify-center gap-8 pointer-events-none">
-        {#each rows as _, rowIndex}
-        <div class="flex w-full justify-center gap-8">
-            {#each cols as _, colIndex}
-            <div class="text-foreground/20">
-                {#if (rowIndex + colIndex) % 2 === 0}
-                <Swords size={24} strokeWidth={2} />
-                {:else}
-                <Minimize size={24} strokeWidth={2} />
-                {/if}
+                    <div class="pt-4">
+                        <Button size="lg" class="px-8 py-6 text-lg transition-transform" href="https://discord.gg/">
+                            Join the Discord!
+                        </Button>
+                    </div>
+                </div>
             </div>
-            {/each}
-        </div>
-        {/each}
+        </section>
     </div>
-    
-    <div class="relative z-10 flex flex-col gap-8 w-full max-w-[1200px] mx-auto py-12 px-4">
-        {@render children?.()}
+
+    <div class="w-full" style:margin-top="-50px" style:mask-image="linear-gradient(to top, black calc(100% - 150px), transparent 100%)" style:-webkit-mask-image="linear-gradient(to top, black calc(100% - 150px), transparent 100%)">
+        <div class="relative min-h-screen w-full overflow-hidden bg-background">
+            <div class="absolute left-0 top-0 flex h-[200vh] w-[200vw] -ml-[50vw] -mt-[50vh] rotate-12 flex-col justify-center gap-8 pointer-events-none">
+                {#each rows as _, rowIndex}
+                <div class="flex w-full justify-center gap-8">
+                    {#each cols as _, colIndex}
+                    <div class="text-foreground/10">
+                        {#if (rowIndex + colIndex) % 2 === 0}
+                            <Flame size={32} strokeWidth={1} />
+                        {:else}
+                            <GamepadDirectional size={32} strokeWidth={1} />
+                        {/if}
+                    </div>
+                    {/each}
+                </div>
+                {/each}
+            </div>
+
+            <div class="relative z-10 flex flex-col gap-8 w-full max-w-400 mx-auto pt-42 px-4">
+                {@render children?.()}
+            </div>
+        </div>
     </div>
 </div>
 

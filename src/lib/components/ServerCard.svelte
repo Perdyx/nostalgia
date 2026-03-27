@@ -167,7 +167,7 @@
       <div class="w-8 h-8 rounded-full bg-muted/20"></div>
     </div>
 
-    <div class="flex-grow p-3 sm:p-4 flex flex-col justify-center min-w-0">
+    <div class="grow p-3 sm:p-4 flex flex-col justify-center min-w-0">
       <div class="flex items-center gap-3 mb-3">
         <div class="h-5 w-48 bg-muted/30 rounded"></div>
         <div class="h-4 w-16 bg-muted/20 rounded-full"></div>
@@ -206,12 +206,12 @@
       </div>
     </div>
 
-    <div class="flex-grow p-3 sm:p-4 flex flex-col justify-center min-w-0">
+    <div class="grow p-3 sm:p-4 flex flex-col justify-center min-w-0">
       <div class="flex items-center gap-3 mb-2 w-full">
         <h4 class="font-bold text-foreground whitespace-nowrap overflow-hidden text-ellipsis">
           {info.name}
         </h4>
-        <span class="text-[10px] font-mono px-2 py-0.5 rounded border whitespace-nowrap flex-shrink-0 
+        <span class="text-[10px] font-mono px-2 py-0.5 rounded border whitespace-nowrap shrink-0 
           {info.version 
             ? 'bg-primary/10 text-primary border-primary/30' 
             : 'bg-red-500/10 text-red-500 border-red-500/20'}">
@@ -245,7 +245,7 @@
 
         <span class="hidden sm:inline-block w-1 h-1 rounded-full bg-muted-foreground/20 mx-0.5 self-center"></span>
 
-        <div class="flex items-center gap-1 truncate max-w-[120px] sm:max-w-none">
+        <div class="flex items-center gap-1 truncate max-w-30 sm:max-w-none">
           <Map class="w-3.5 h-3.5" /> {info.map}
         </div>
 
@@ -260,17 +260,17 @@
     <a
       href="https://gamemonitoring.net/ground-branch/servers/{info.id}/connect"
       target="_blank"
-      class="group flex items-center justify-center bg-transparent text-muted-foreground/60 border-l border-border hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-500 ease-in-out w-12 hover:w-28 min-h-[44px] sm:min-h-full overflow-hidden flex-shrink-0"
+      class="group flex items-center justify-center bg-transparent text-muted-foreground/60 border-l border-border hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-500 ease-in-out w-12 hover:w-28 min-h-11 sm:min-h-full overflow-hidden shrink-0"
     >
       <div class="flex items-center justify-center transition-all duration-500">
-        <span class="max-w-0 opacity-0 group-hover:max-w-[100px] group-hover:opacity-100 transition-all duration-500 font-bold uppercase tracking-widest text-xs whitespace-nowrap">
+        <span class="max-w-0 opacity-0 group-hover:max-w-25 group-hover:opacity-100 transition-all duration-500 font-bold uppercase tracking-widest text-xs whitespace-nowrap">
           Join
         </span>
-        <div class="relative w-4 h-4 flex items-center justify-center flex-shrink-0 transition-all duration-500 group-hover:ml-2">
+        <div class="relative w-4 h-4 flex items-center justify-center shrink-0 transition-all duration-500 group-hover:ml-2">
           <div class="absolute inset-0 transition-all duration-500 transform group-hover:rotate-180 group-hover:scale-0 group-hover:opacity-0">
             <ChevronRight size={16} strokeWidth={3} />
           </div>
-          <div class="absolute inset-0 transition-all duration-500 transform scale-0 opacity-0 rotate-[-180deg] group-hover:rotate-0 group-hover:scale-110 group-hover:opacity-100">
+          <div class="absolute inset-0 transition-all duration-500 transform scale-0 opacity-0 -rotate-180 group-hover:rotate-0 group-hover:scale-110 group-hover:opacity-100">
             <PlugZap size={16} strokeWidth={2.5} />
           </div>
         </div>

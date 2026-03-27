@@ -14,15 +14,6 @@
 </script>
 
 <div class="grid gap-6">
-  <GameCard 
-    title="Unturned" 
-    servers={unturnedServers} 
-    startIndex={0} 
-  />
-
-  <GameCard 
-    title="Ground Branch" 
-    servers={groundBranchServers} 
-    startIndex={unturnedServers.length} 
-  />
+  <GameCard title="Ground Branch" servers={groundBranchServers} startIndex={unturnedServers.length} />
+  <GameCard title="Unturned" servers={unturnedServers} startIndex={0} />
 </div>
