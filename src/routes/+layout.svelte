@@ -1,7 +1,8 @@
 <script>
     // Styles & Assets
-    import './layout.css';
-    import favicon from '$lib/assets/favicon.svg';
+    import "./layout.css";
+    import favicon from "$lib/assets/favicon.svg";
+    import hero from "$lib/assets/hero.jpg"
 
     // Shadcn UI Components
     import * as NavigationMenu from "$lib/components/ui/navigation-menu/index.js";
@@ -38,6 +39,29 @@
         </NavigationMenu.Item>
     </NavigationMenu.List>
 </NavigationMenu.Root>
+
+<section class="relative w-full h-[600px] overflow-hidden">
+  <img src={hero} alt="Screenshot from Ground Branch (2025)" class="absolute inset-0 w-full h-full object-cover object-center" />
+  <div class="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent"></div>
+  
+  <div class="relative z-10 container mx-auto h-full flex flex-col justify-center px-6 lg:px-12">
+    <div class="max-w-2xl space-y-6">
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
+        Title
+      </h1>
+      
+      <p class="text-lg md:text-xl text-foreground-muted leading-relaxed">
+        The paragraph from the server browser and stuff. Some other text that I don't have right now.
+      </p>
+
+      <div class="pt-4">
+        <Button size="lg" class="px-8 py-6 text-lg transition-transform" href="https://discord.gg/">
+          Join the Discord!
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>
 
 <div class="relative min-h-screen w-full overflow-hidden bg-background">
     <div class="absolute left-0 top-0 flex h-[200vh] w-[200vw] -ml-[50vw] -mt-[50vh] rotate-12 flex-col justify-center gap-8 pointer-events-none">
