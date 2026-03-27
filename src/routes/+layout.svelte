@@ -27,13 +27,6 @@
             <NavigationMenu.Link class="font-medium text-[16px]">LOGO</NavigationMenu.Link>
         </NavigationMenu.Item>
     </NavigationMenu.List>
-    
-    <div class="ml-auto"></div>
-    
-    <Button onclick={toggleMode} variant="ghost" class="rounded-full h-10 w-10 p-0 transition-colors">
-        <Eclipse class="h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all! dark:scale-100 dark:rotate-0"/>
-        <MoonIcon class="absolute h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all! dark:scale-0 dark:-rotate-90"/>
-    </Button>
 </NavigationMenu.Root>
 
 <div class="relative min-h-screen w-full overflow-hidden bg-background">
@@ -41,7 +34,7 @@
         {#each rows as _, rowIndex}
         <div class="flex w-full justify-center gap-8">
             {#each cols as _, colIndex}
-            <div class="text-foreground/10 dark:text-foreground/20">
+            <div class="text-foreground/20">
                 {#if (rowIndex + colIndex) % 2 === 0}
                 <Swords size={24} strokeWidth={1.5} />
                 {:else}
