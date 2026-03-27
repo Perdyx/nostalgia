@@ -36,9 +36,9 @@
             {#each cols as _, colIndex}
             <div class="text-foreground/20">
                 {#if (rowIndex + colIndex) % 2 === 0}
-                <Swords size={24} strokeWidth={1.5} />
+                <Swords size={24} strokeWidth={2} />
                 {:else}
-                <Minimize size={24} strokeWidth={1.5} />
+                <Minimize size={24} strokeWidth={2} />
                 {/if}
             </div>
             {/each}
