@@ -56,7 +56,7 @@
                     </p>
 
                     <div class="pt-4">
-                        <Button size="lg" class="px-8 py-6 text-lg transition-transform" href="https://discord.gg/">
+                        <Button size="lg" class="px-8 py-6 text-lg transition-transform" href="https://discord.gg/SFwzAnRjvv">
                             Join the Discord!
                         </Button>
                     </div>
