@@ -1,7 +1,7 @@
 <script lang="ts">
     import * as Card from "$lib/components/ui/card/index.js";
     import { Server } from "@lucide/svelte";
-    import GameCard from "../components/GameCard.svelte";
+    import GameCard from "../lib/components/GameCard.svelte";
 
     const unturnedServers = [
         { id: "10997380" },
