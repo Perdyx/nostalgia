@@ -79,7 +79,7 @@
         {/each}
     </div>
     
-    <div class="relative z-10 flex flex-col gap-8 w-full max-w-[900px] mx-auto py-12 px-4">
+    <div class="relative z-10 flex flex-col gap-8 w-full max-w-[1200px] mx-auto py-12 px-4">
         {@render children?.()}
     </div>
 </div>
