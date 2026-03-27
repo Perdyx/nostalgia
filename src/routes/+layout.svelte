@@ -30,7 +30,6 @@
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
-<ModeWatcher />
 
 <NavigationMenu.Root class="max-w-full w-full justify-start px-8 py-4 sticky top-0 z-50 bg-background border-b">
     <NavigationMenu.List class="max-w-full w-full flex items-center">
@@ -92,7 +91,6 @@
                 Built with 
                 <a href="https://www.shadcn-svelte.com/" target="_blank" rel="noreferrer" class="font-medium underline underline-offset-4">shadcn-svelte</a>.
             </span>
-            <!-- <Separator orientation="vertical" class="h-6" /> -->
             <span>
                 Code licensed under
                 <a href="https://github.com/Perdyx/nostalgia/blob/main/LICENSE" target="_blank" rel="noreferrer" class="font-medium underline underline-offset-4">MIT License</a>.
