@@ -83,14 +83,14 @@
                 {/each}
             </div>
 
-            <div class="relative z-10 flex flex-col gap-8 w-full max-w-400 mx-auto pt-42 px-4">
+            <div class="relative z-10 flex flex-col gap-8 w-full max-w-400 mx-auto py-48 px-4">
                 {@render children?.()}
             </div>
         </div>
     </div>
 </div>
 
-<footer class="w-full border-t bg-background py-6 text-center">
+<footer class="w-full border-t bg-background py-8 text-center">
     <div class="container mx-auto flex flex-col items-center gap-2">
         <div class="flex items-center gap-1 text-sm text-muted-foreground">
             <span>
